@@ -1,4 +1,5 @@
 from stats import get_num_words, get_num_letters, get_sorted_letters
+import sys
 
 
 def get_book_text(filepath):
@@ -8,13 +9,24 @@ def get_book_text(filepath):
 
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
     print("============ BOOKBOT ============")
 
-    PATH = "./books/frankenstein.txt"
+    path = sys.argv[1]
 
-    print(f"Analyzing book found at {PATH}")
+    try:
+        text = get_book_text(path)
+    except FileNotFoundError as e:
+        print("Please pass a path to a existing file")
+        sys.exit(1)
+    except IsADirectoryError as e:
+        print("Please pass a path to a file")
+        sys.exit(1)
 
-    text = get_book_text(PATH)
+    print(f"Analyzing book found at {path}")
 
     print("----------- Word Count ----------")
 
